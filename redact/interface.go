@@ -19,10 +19,15 @@ func Apply(in interface{}) {
 // Bypass provides a way to bypass the internal marked methods to be ran
 // through clients
 type Bypass interface {
-	CheckInternal(ctx context.Context, in interface{}) bool
+	CheckInternal(ctx context.Context) bool
 }
 
 // Wrap: helps to implement Bypass
-type Wrap func(ctx context.Context, in interface{}) bool
+type Wrap func(ctx context.Context) bool
 
-func (w Wrap) CheckInternal(ctx context.Context, in interface{}) bool { return w(ctx, in) }
+func (w Wrap) CheckInternal(ctx context.Context) bool { return w(ctx) }
+
+// Falsy is the nil implementation for Bypass
+var Falsy = Wrap(func(_ context.Context) bool {
+	return false
+})

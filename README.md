@@ -1,6 +1,6 @@
 protoc-gen-redact (PGR)
 =======================
-[![Go Reference](https://pkg.go.dev/badge/Shivam010/protoc-gen-redact.svg)](https://pkg.go.dev/Shivam010/protoc-gen-redact)
+[![Go Reference](https://pkg.go.dev/badge/github.com/Shivam010/protoc-gen-redact.svg)](https://pkg.go.dev/github.com/Shivam010/protoc-gen-redact)
 [![License](https://img.shields.io/badge/license-apache2-mildgreen.svg)](./LICENSE)
 [![GitHub release](https://img.shields.io/github/release/Shivam010/protoc-gen-redact.svg)](https://github.com/Shivam010/protoc-gen-redact/releases)
 
@@ -17,10 +17,12 @@ package user;
 import "redact/redact.proto";
 import "google/protobuf/empty.proto";
 
+option go_package = "github.com/Shivam010/protoc-gen-redact/examples/user/pb;user";
+
 message User {
     // User credentials
     string username = 1;
-    string password = 2 [(redact.redact) = true];
+    string password = 2 [(redact.redact) = true]; // default redaction
 
     // User information
     string email = 3 [(redact.custom).string = "r*d@ct*d"];

@@ -64,9 +64,9 @@ extend google.protobuf.FieldOptions {
     //  * `"REDACTED"` for string type
     //  * `nil` for byte type
     //  * `0th value` for enum type
-    //  * `nil` for message type
     //  * `nil` map for map type
-    //  * for repeated field type, default rules are applied `recursively` to each item
+    //  * `nil` for repeated field type
+    //  * for message type, redaction is applied inside the message type
     bool redact = 54123;
     // Custom: specify the different values to be used for redaction on this field. By
     // default, if Custom value is not defined Redact should be true to apply redaction.
@@ -111,8 +111,13 @@ message MessageRules {
     bool skip = 1;
 
     // Empty specifies that after redaction this field should be set to empty object
-    // instead of nil
     bool empty = 2;
+
+    // Nil specifies that after redaction this field should be set to nil object
+    bool nil = 3;
+
+    // Apply specifies that redaction is to be called for the message type
+    bool apply = 4;
 }
 
 // ElementRules describe the constraints applied to `repeated` or `map` values
@@ -120,9 +125,11 @@ message ElementRules {
     // Empty specifies that after redaction the list/map will be empty
     bool empty = 1;
 
-    // Nested specifies that default rules is to be applied on each item of map/list
+    // Nested specifies that default rules is to be applied `recursively` on each
+    // item of map/list
     bool nested = 2;
 
-    // Item specifies the redaction rules to be applied to each item in map/list.
+    // Item specifies that some custom redaction rules to be applied `recursively`
+    // on each item in map/list.
     FieldRules item = 3;
 }
