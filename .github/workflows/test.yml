@@ -10,12 +10,12 @@ jobs:
         go_version: [ 1.15 ]
     steps:
       - name: Set up Go ${{ matrix.go_version }}
-        uses: actions/setup-go@latest
+        uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go_version }}
         id: go
       - name: Check out code
-        uses: actions/checkout@latest
+        uses: actions/checkout@v2
       - name: Checkout example directory
         run: cd examples/user/
       - name: Go Test
@@ -25,9 +25,9 @@ jobs:
     name: StaticCheck
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@latest
+      - uses: actions/checkout@v2
       - name: check
-        uses: grandcolline/golang-github-actions@latest
+        uses: grandcolline/golang-github-actions@v1
         with:
           run: staticcheck
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -36,9 +36,9 @@ jobs:
     name: Go Vet with Shadow
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@latest
+      - uses: actions/checkout@v2
       - name: check
-        uses: grandcolline/golang-github-actions@latest
+        uses: grandcolline/golang-github-actions@v1
         with:
           run: shadow
           token: ${{ secrets.GITHUB_TOKEN }}
