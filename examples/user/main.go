@@ -20,7 +20,7 @@ func RunServer() *grpc.Server {
 	// register our Redacted Chat Server
 	pb.RegisterRedactedChatServer(srv,
 		NewChatServer(),
-		redact.Wrap(func(ctx context.Context) bool {
+		redact.Wrapper(func(ctx context.Context) bool {
 			md, ok := metadata.FromIncomingContext(ctx)
 			return ok && md["key"] != nil
 		}),

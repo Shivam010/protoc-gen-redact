@@ -54,7 +54,7 @@ func RedactionDefaults(typ pgs.ProtoType, isRepeated bool) string {
 	}
 }
 
-// redact proto field rules based on their type
+// ToCustomRule return redact proto' field rules based on their type
 func ToCustomRule(typ pgs.ProtoType, lab pgs.ProtoLabel) string {
 	if lab == pgs.Repeated {
 		return "(redact.custom).element.*"

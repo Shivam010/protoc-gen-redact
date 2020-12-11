@@ -1,5 +1,6 @@
 package main
 
+// ProtoFileData defines custom data type for Proto File info needed in template
 type ProtoFileData struct {
 	Source  string
 	Package string
@@ -10,12 +11,14 @@ type ProtoFileData struct {
 	Messages   []*MessageData
 }
 
+// ServiceData defines custom data type for Service info needed in template
 type ServiceData struct {
 	Name    string
 	Skip    bool
 	Methods []*MethodData
 }
 
+// MethodData defines custom data type for Method info needed in template
 type MethodData struct {
 	Name       string
 	Skip       bool
@@ -26,6 +29,7 @@ type MethodData struct {
 	ErrMessage string
 }
 
+// MessageData defines custom data type for Message info needed in template
 type MessageData struct {
 	Name      string
 	WithAlias string
@@ -36,6 +40,7 @@ type MessageData struct {
 	ToEmpty bool
 }
 
+// FieldData defines custom data type for Field info needed in template
 type FieldData struct {
 	Name string
 	// Redact using RedactionValue
