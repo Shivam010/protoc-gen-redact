@@ -11,15 +11,17 @@ jobs:
         os: [ ubuntu-latest, windows-latest, macOS-latest ]
     steps:
       - name: Set up Go ${{ matrix.go_version }}
-        uses: actions/setup-go@v2.1.2
+        uses: actions/setup-go@latest
         with:
           go-version: ${{ matrix.go_version }}
         id: go
       - name: Check out code
-        uses: actions/checkout@v2.3.2
+        uses: actions/checkout@latest
       - name: Go mod verify
         run: go mod verify
       - name: Go vet normally
         run: go vet ./...
       - name: Go build
         run: go build ./...
+      - name: Binary
+        run: go build -o bin/protoc-gen-redact .
