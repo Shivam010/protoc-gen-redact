@@ -1,7 +1,5 @@
 name: Tests/Checks
 on: [ push, pull_request ]
-env:
-  GO111MODULE: on
 
 jobs:
   test:
