@@ -22,12 +22,13 @@ type Bypass interface {
 	CheckInternal(ctx context.Context) bool
 }
 
-// Wrap: helps to implement Bypass
-type Wrap func(ctx context.Context) bool
+// Wrapper helps to implement Bypass
+type Wrapper func(ctx context.Context) bool
 
-func (w Wrap) CheckInternal(ctx context.Context) bool { return w(ctx) }
+// CheckInternal for Wrapper
+func (w Wrapper) CheckInternal(ctx context.Context) bool { return w(ctx) }
 
 // Falsy is the nil implementation for Bypass
-var Falsy = Wrap(func(_ context.Context) bool {
+var Falsy = Wrapper(func(_ context.Context) bool {
 	return false
 })

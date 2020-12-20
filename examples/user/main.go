@@ -14,13 +14,14 @@ import (
 	"os/signal"
 )
 
-func RunServer() *grpc.Server {
+func RunServer() (*grpc.Server, <-chan struct{}) {
+	ready := make(chan struct{})
 	// new grpc server
 	srv := grpc.NewServer()
 	// register our Redacted Chat Server
 	pb.RegisterRedactedChatServer(srv,
 		NewChatServer(),
-		redact.Wrap(func(ctx context.Context) bool {
+		redact.Wrapper(func(ctx context.Context) bool {
 			md, ok := metadata.FromIncomingContext(ctx)
 			return ok && md["key"] != nil
 		}),
@@ -33,11 +34,12 @@ func RunServer() *grpc.Server {
 			panic(err)
 		}
 		fmt.Println("listening")
+		ready <- struct{}{}
 		if err := srv.Serve(lis); err != nil {
 			panic(err)
 		}
 	}()
-	return srv
+	return srv, ready
 }
 
 func RunClient(ctx context.Context) (*grpc.ClientConn, error) {
@@ -125,7 +127,9 @@ func main() {
 	defer cancel()
 
 	// run our chat server
-	srv := RunServer()
+	srv, ready := RunServer()
+	// wait till srv is ready
+	<-ready
 	// run our chat client to test server
 	conn, err := RunClient(ctx)
 	if err != nil {

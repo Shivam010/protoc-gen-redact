@@ -1,0 +1,43 @@
+name: Tests/Checks
+on: [ push ]
+
+jobs:
+  test:
+    name: With ${{ matrix.go_version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go_version: [ 1.15 ]
+    steps:
+      - name: Set up Go ${{ matrix.go_version }}
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go_version }}
+        id: go
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Go Test
+        run: cd examples/user/ && go run github.com/Shivam010/protoc-gen-redact/examples/user
+
+  staticcheck:
+    name: StaticCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: check
+        uses: grandcolline/golang-github-actions@v1.1.0
+        with:
+          run: staticcheck
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  vet-shadow:
+    name: Go Vet with Shadow
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: check
+        uses: grandcolline/golang-github-actions@v1.1.0
+        with:
+          run: shadow
+          token: ${{ secrets.GITHUB_TOKEN }}
+

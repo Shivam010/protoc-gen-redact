@@ -18,6 +18,7 @@ const (
 	specifierService = "%service%"
 )
 
+// Process processes the file and adds its generated code into Module.Artifacts
 func (m *Module) Process(file pgs.File) {
 	// check file option: FileSkip
 	fileSkip := false
